@@ -37,19 +37,44 @@
 <!-- Status Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('status', __('models/orders.fields.status').':') !!}
-    {!! Form::number('status', null, ['class' => 'form-control']) !!}
+    <select id="status" name="status" class="form-control control" data-role="control">
+        <option value="1" @if(isset($order)){{$order->status == 1 ? 'selected' : '' }}@endif>New</option>
+        <option value="2" @if(isset($user)){{$order->status ==2 ? 'selected' : '' }}@endif>InPended</option>
+        <option value="3" @if(isset($user)){{$order->status ==3 ? 'selected' : '' }}@endif>InProcess</option>
+        <option value="4" @if(isset($user)){{$order->status ==4 ? 'selected' : '' }}@endif>Finished</option>
+    </select>
 </div>
 
 <!-- User Id Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('user_id', __('models/orders.fields.user_id').':') !!}
-    {!! Form::number('user_id', null, ['class' => 'form-control']) !!}
+    @if(isset($order))
+        {{ Form::select('user_id', $users, $order->user_id, ['class' => 'form-control', 'id' => 'user_id']) }}
+    @else
+        {{ Form::select('user_id', $users, null, ['class' => 'form-control', 'id' => 'user_id']) }}
+    @endif
+    {{--    {!! Form::number('user_id', null, ['class' => 'form-control']) !!}--}}
 </div>
 
 <!-- Agency Id Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('agency_id', __('models/orders.fields.agency_id').':') !!}
-    {!! Form::number('agency_id', null, ['class' => 'form-control']) !!}
+    @if(isset($order))
+        {{ Form::select('agency_id', $agency, $order->agency_id, ['class' => 'form-control', 'id' => 'user_id']) }}
+    @else
+        {{ Form::select('agency_id', $agency, null, ['class' => 'form-control', 'id' => 'user_id']) }}
+    @endif
+</div>
+
+
+<!-- Driver Id Field -->
+<div class="form-group col-sm-6">
+    {!! Form::label('driver_id', __('models/orders.fields.driver_id').':') !!}
+    @if(isset($order))
+        {{ Form::select('agency_id', $drivers, $order->driver_id, ['class' => 'form-control', 'id' => 'driver_id']) }}
+    @else
+        {{ Form::select('agency_id', $drivers, null, ['class' => 'form-control', 'id' => 'driver_id']) }}
+    @endif
 </div>
 
 <!-- Size Field -->
@@ -68,12 +93,6 @@
 <div class="form-group col-sm-6">
     {!! Form::label('total', __('models/orders.fields.total').':') !!}
     {!! Form::number('total', null, ['class' => 'form-control']) !!}
-</div>
-
-<!-- Driver Id Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('driver_id', __('models/orders.fields.driver_id').':') !!}
-    {!! Form::number('driver_id', null, ['class' => 'form-control']) !!}
 </div>
 
 <!-- Subtotal Field -->

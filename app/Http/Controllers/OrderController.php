@@ -43,10 +43,10 @@ class OrderController extends AppBaseController
      */
     public function create()
     {
-        $bakery = Bakery::all()->pluck('id', 'name');
-        $agency = User::where('role', 2)->pluck('id', 'name');
-        $users = User::where('role', 3)->pluck('id', 'name');
-        $drivers = Driver::all()->pluck('id', 'name');
+        $bakery = Bakery::all()->pluck('name', 'id');
+        $agency = User::where('role', 2)->pluck('name', 'id');
+        $users = User::where('role', 3)->pluck('name', 'id');
+        $drivers = Driver::all()->pluck('name', 'id');
         return view('orders.create', compact('bakery', 'agency', 'users', 'drivers'));
     }
 
@@ -97,10 +97,10 @@ class OrderController extends AppBaseController
     public function edit($id)
     {
         $order = $this->orderRepository->find($id);
-        $bakery = Bakery::all()->pluck('id', 'name');
-        $agency = User::where('role', 2)->pluck('id', 'name');
-        $users = User::where('role', 3)->pluck('id', 'name');
-        $drivers = Driver::all()->pluck('id', 'name');
+        $bakery = Bakery::all()->pluck('name', 'id');
+        $agency = User::where('role', 2)->pluck('name', 'id');
+        $users = User::where('role', 3)->pluck('name', 'id');
+        $drivers = Driver::all()->pluck('name', 'id');
         if (empty($order)) {
             Flash::error(__('messages.not_found', ['model' => __('models/orders.singular')]));
 
