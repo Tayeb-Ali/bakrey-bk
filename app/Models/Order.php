@@ -114,6 +114,10 @@ class Order extends Model
 
     protected $dates = ['deleted_at'];
 
+    public function setRequestOn($value)
+    {
+
+    }
 //    protected $with = ['driver', 'user', 'agent', 'bakery'];// 'agent', 'bakery'];
 //    protected $with = 'bakery';
     public $fillable = [
@@ -163,16 +167,16 @@ class Order extends Model
         'request_on' => 'nullable',
         'arrival_on' => 'nullable',
         'quota' => 'required|integer',
-        'status' => 'required|integer',
+        'status' => 'nullable|integer',
         'bakery_id' => 'nullable|integer',
         'user_id' => 'nullable|integer',
         'agency_id' => 'nullable|integer',
-        'size' => 'required|integer',
-        'qty' => 'required|integer',
-        'total' => 'required|numeric',
-        'driver_id' => 'required|integer',
-        'subtotal' => 'required|numeric',
-        'delivery_fees' => 'required|numeric',
+        'size' => 'nullable|integer',
+        'qty' => 'nullable|integer',
+        'total' => 'nullable|numeric',
+        'driver_id' => 'nullable|integer',
+        'subtotal' => 'nullable|numeric',
+        'delivery_fees' => 'nullable|numeric',
         'updated_at' => 'nullable',
         'created_at' => 'nullable'
     ];

@@ -6,6 +6,7 @@ use App\Http\Requests\API\CreateOrderAPIRequest;
 use App\Http\Requests\API\UpdateOrderAPIRequest;
 use App\Models\Order;
 use App\Repositories\OrderRepository;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Controllers\AppBaseController;
 use Response;
@@ -132,6 +133,7 @@ class OrderAPIController extends AppBaseController
     {
         $input = $request->all();
 
+        $input['request_on'] = Carbon::now()->timestamp;
         $order = $this->orderRepository->create($input);
 
         return $this->sendResponse(

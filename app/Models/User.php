@@ -103,6 +103,7 @@ class User extends Model
         'status',
         'areas',
         'api_token',
+        'password'
 
     ];
 

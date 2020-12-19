@@ -19,13 +19,23 @@
 <!-- Role Field -->
 <div class="form-group col-sm-6">
     {!! Form::label('role', __('models/users.fields.role').':') !!}
-    {!! Form::number('role', null, ['class' => 'form-control']) !!}
+    <select id="role" name="role" class="form-control control" data-role="control">
+        <option value="1" @if(isset($user)){{$user->role == 1 ? 'selected' : '' }}@endif>Admin</option>
+        <option value="2" @if(isset($user)){{$user->role ==2 ? 'selected' : '' }}@endif>Agent</option>
+        <option value="3" @if(isset($user)){{$user->role ==3 ? 'selected' : '' }}@endif>Bakery</option>
+    </select>
+    {!! $errors->first('role', '<span class="control-error">:message</span>') !!}
 </div>
 
 <!-- Status Field -->
+
 <div class="form-group col-sm-6">
     {!! Form::label('status', __('models/users.fields.status').':') !!}
-    {!! Form::number('status', null, ['class' => 'form-control']) !!}
+    <select id="status" name="status" class="form-control control" data-role="control">
+        <option value="1" @if(isset($user)){{$user->status == 1 ? 'selected' : '' }}@endif>Active</option>
+        <option value="2" @if(isset($user)){{$user->status ==2 ? 'selected' : '' }}@endif>InActive</option>
+    </select>
+    {!! $errors->first('status', '<span class="control-error">:message</span>') !!}
 </div>
 
 <!-- Areas Field -->
@@ -38,18 +48,6 @@
 <div class="form-group col-sm-6">
     {!! Form::label('password', __('models/users.fields.password').':') !!}
     {!! Form::password('password', ['class' => 'form-control']) !!}
-</div>
-
-<!-- Api Token Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('api_token', __('models/users.fields.api_token').':') !!}
-    {!! Form::text('api_token', null, ['class' => 'form-control']) !!}
-</div>
-
-<!-- Remember Token Field -->
-<div class="form-group col-sm-6">
-    {!! Form::label('remember_token', __('models/users.fields.remember_token').':') !!}
-    {!! Form::text('remember_token', null, ['class' => 'form-control']) !!}
 </div>
 
 <!-- Submit Field -->

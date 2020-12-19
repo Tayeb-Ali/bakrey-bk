@@ -3,6 +3,7 @@
 namespace App\DataTables;
 
 use App\Models\Order;
+use App\User;
 use Yajra\DataTables\Services\DataTable;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Column;
@@ -19,7 +20,26 @@ class OrderDataTable extends DataTable
     {
         $dataTable = new EloquentDataTable($query);
 
-        return $dataTable->addColumn('action', 'orders.datatables_actions');
+        return $dataTable->addColumn('action', 'orders.datatables_actions')
+            ->editColumn('status', function ($in) {
+                if ($in->status == 1) return 'New';
+                if ($in->status == 2) return 'InPended';
+                if ($in->status == 3) return 'InProcess';
+                if ($in->status == 4) return 'Finished';
+            })
+            ->editColumn('request_on', function ($inq) {
+                return date('Y-m-D', strtotime($inq->request_on));
+            })->editColumn('arrival_on', function ($inq) {
+                return date('Y-m-D', strtotime($inq->arrival_on));
+            })
+            ->editColumn('agency_id', function ($inq) {
+                $agency = User::where('id', $inq->agency_id)->pluck('name');
+                return $agency;
+            })
+            ->editColumn('user_id', function ($inq) {
+                $bakery = User::where('id', $inq->user_id)->pluck('name');
+                return $bakery;
+            });
     }
 
     /**
@@ -45,39 +65,39 @@ class OrderDataTable extends DataTable
             ->minifiedAjax()
             ->addAction(['width' => '120px', 'printable' => false, 'title' => __('crud.action')])
             ->parameters([
-                'dom'       => 'Bfrtip',
+                'dom' => 'Bfrtip',
                 'stateSave' => true,
-                'order'     => [[0, 'desc']],
-                'buttons'   => [
+                'order' => [[0, 'desc']],
+                'buttons' => [
                     [
-                       'extend' => 'create',
-                       'className' => 'btn btn-default btn-sm no-corner',
-                       'text' => '<i class="fa fa-plus"></i> ' .__('auth.app.create').''
+                        'extend' => 'create',
+                        'className' => 'btn btn-default btn-sm no-corner',
+                        'text' => '<i class="fa fa-plus"></i> ' . __('auth.app.create') . ''
                     ],
                     [
-                       'extend' => 'export',
-                       'className' => 'btn btn-default btn-sm no-corner',
-                       'text' => '<i class="fa fa-download"></i> ' .__('auth.app.export').''
+                        'extend' => 'export',
+                        'className' => 'btn btn-default btn-sm no-corner',
+                        'text' => '<i class="fa fa-download"></i> ' . __('auth.app.export') . ''
                     ],
                     [
-                       'extend' => 'print',
-                       'className' => 'btn btn-default btn-sm no-corner',
-                       'text' => '<i class="fa fa-print"></i> ' .__('auth.app.print').''
+                        'extend' => 'print',
+                        'className' => 'btn btn-default btn-sm no-corner',
+                        'text' => '<i class="fa fa-print"></i> ' . __('auth.app.print') . ''
                     ],
                     [
-                       'extend' => 'reset',
-                       'className' => 'btn btn-default btn-sm no-corner',
-                       'text' => '<i class="fa fa-undo"></i> ' .__('auth.app.reset').''
+                        'extend' => 'reset',
+                        'className' => 'btn btn-default btn-sm no-corner',
+                        'text' => '<i class="fa fa-undo"></i> ' . __('auth.app.reset') . ''
                     ],
                     [
-                       'extend' => 'reload',
-                       'className' => 'btn btn-default btn-sm no-corner',
-                       'text' => '<i class="fa fa-refresh"></i> ' .__('auth.app.reload').''
+                        'extend' => 'reload',
+                        'className' => 'btn btn-default btn-sm no-corner',
+                        'text' => '<i class="fa fa-refresh"></i> ' . __('auth.app.reload') . ''
                     ],
                 ],
-                 'language' => [
-                   'url' => url('//cdn.datatables.net/plug-ins/1.10.12/i18n/English.json'),
-                 ],
+                'language' => [
+                    'url' => url('//cdn.datatables.net/plug-ins/1.10.12/i18n/English.json'),
+                ],
             ]);
     }
 
@@ -89,18 +109,19 @@ class OrderDataTable extends DataTable
     protected function getColumns()
     {
         return [
-            'request_on' => new Column(['title' => __('models/orders.fields.request_on'), 'data' => 'request_on']),
-            'arrival_on' => new Column(['title' => __('models/orders.fields.arrival_on'), 'data' => 'arrival_on']),
+            'id' => new Column(['id' => __('models/orders.fields.id'), 'data' => 'id']),
             'quota' => new Column(['title' => __('models/orders.fields.quota'), 'data' => 'quota']),
             'status' => new Column(['title' => __('models/orders.fields.status'), 'data' => 'status']),
+            'request_on' => new Column(['title' => __('models/orders.fields.request_on'), 'data' => 'request_on']),
+            'arrival_on' => new Column(['title' => __('models/orders.fields.arrival_on'), 'data' => 'arrival_on']),
             'user_id' => new Column(['title' => __('models/orders.fields.user_id'), 'data' => 'user_id']),
             'agency_id' => new Column(['title' => __('models/orders.fields.agency_id'), 'data' => 'agency_id']),
-            'size' => new Column(['title' => __('models/orders.fields.size'), 'data' => 'size']),
+//            'size' => new Column(['title' => __('models/orders.fields.size'), 'data' => 'size']),
             'qty' => new Column(['title' => __('models/orders.fields.qty'), 'data' => 'qty']),
             'total' => new Column(['title' => __('models/orders.fields.total'), 'data' => 'total']),
-            'driver_id' => new Column(['title' => __('models/orders.fields.driver_id'), 'data' => 'driver_id']),
-            'subtotal' => new Column(['title' => __('models/orders.fields.subtotal'), 'data' => 'subtotal']),
-            'delivery_fees' => new Column(['title' => __('models/orders.fields.delivery_fees'), 'data' => 'delivery_fees'])
+//            'driver_id' => new Column(['title' => __('models/orders.fields.driver_id'), 'data' => 'driver_id']),
+//            'subtotal' => new Column(['title' => __('models/orders.fields.subtotal'), 'data' => 'subtotal']),
+//            'delivery_fees' => new Column(['title' => __('models/orders.fields.delivery_fees'), 'data' => 'delivery_fees'])
         ];
     }
 

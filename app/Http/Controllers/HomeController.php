@@ -4,6 +4,9 @@
 namespace App\Http\Controllers;
 
 
+use App\Models\Driver;
+use App\Models\Order;
+use App\Models\User;
 use Illuminate\Http\Response;
 
 class HomeController extends Controller
@@ -25,6 +28,10 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $orders = Order::all('id')->count();
+        $agent = User::where('role', 2)->count();
+        $bakery = User::where('role', 3)->count();
+        $driver = Driver::all('id')->count();
+        return view('home', compact('bakery', 'orders', 'driver', 'agent'));
     }
 }

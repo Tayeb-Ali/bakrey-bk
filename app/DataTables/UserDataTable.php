@@ -102,6 +102,7 @@ class UserDataTable extends DataTable
     protected function getColumns()
     {
         return [
+            'id' => new Column(['id' => __('models/users.fields.id'), 'data' => 'id']),
             'name' => new Column(['title' => __('models/users.fields.name'), 'data' => 'name']),
             'mobile' => new Column(['title' => __('models/users.fields.mobile'), 'data' => 'mobile']),
             'role' => new Column(['title' => __('models/users.fields.role'), 'data' => 'role']),

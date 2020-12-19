@@ -52,6 +52,7 @@ class UserController extends AppBaseController
     public function store(CreateUserRequest $request)
     {
         $input = $request->all();
+        $input['password'] = bcrypt($request->password);
 
         $user = $this->userRepository->create($input);
 
@@ -63,7 +64,7 @@ class UserController extends AppBaseController
     /**
      * Display the specified User.
      *
-     * @param  int $id
+     * @param int $id
      *
      * @return Response
      */
@@ -72,7 +73,7 @@ class UserController extends AppBaseController
         $user = $this->userRepository->find($id);
 
         if (empty($user)) {
-            Flash::error(__('models/users.singular').' '.__('messages.not_found'));
+            Flash::error(__('models/users.singular') . ' ' . __('messages.not_found'));
 
             return redirect(route('users.index'));
         }
@@ -83,7 +84,7 @@ class UserController extends AppBaseController
     /**
      * Show the form for editing the specified User.
      *
-     * @param  int $id
+     * @param int $id
      *
      * @return Response
      */
@@ -103,7 +104,7 @@ class UserController extends AppBaseController
     /**
      * Update the specified User in storage.
      *
-     * @param  int              $id
+     * @param int $id
      * @param UpdateUserRequest $request
      *
      * @return Response
@@ -128,7 +129,7 @@ class UserController extends AppBaseController
     /**
      * Remove the specified User from storage.
      *
-     * @param  int $id
+     * @param int $id
      *
      * @return Response
      */
