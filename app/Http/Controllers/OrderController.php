@@ -13,6 +13,7 @@ use App\User;
 use Carbon\Carbon;
 use Flash;
 use App\Http\Controllers\AppBaseController;
+use Illuminate\Http\Request;
 use Response;
 
 class OrderController extends AppBaseController
@@ -118,8 +119,9 @@ class OrderController extends AppBaseController
      *
      * @return Response
      */
-    public function update($id, UpdateOrderRequest $request)
+    public function update($id, Request $request)
     {
+//        return $request->all()
         $order = $this->orderRepository->find($id);
 
         if (empty($order)) {

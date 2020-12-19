@@ -20,6 +20,7 @@ Route::post('register', 'AuthController@register');
 //    return $auth = User::where('api_token', $token)->first();
 //})->middleware('auth_api');
 Route::resource('bakeries', 'BakeryAPIController');
+Route::put('reports', 'BakeryAPIController@reports');
 //Route::resource('bakeries', 'BakeryAPIController')->middleware('auth_api');
 
 Route::resource('drivers', 'DriverAPIController');
@@ -27,6 +28,7 @@ Route::resource('drivers', 'DriverAPIController');
 Route::resource('orders', 'OrderAPIController');
 Route::get('bakery_orders/{bakeryId}', 'OrderAPIController@bakery_orders');
 Route::get('last_order/{bakeryId}', 'OrderAPIController@last_order');
+Route::get('search_order/{searchText}/{bakeryId}', 'OrderAPIController@search_order');
 
 Route::get('home_bakery/{userId}', 'HomeAPIController@home_bakery');
 Route::get('home_agent/{userId}', 'HomeAPIController@home_agent');

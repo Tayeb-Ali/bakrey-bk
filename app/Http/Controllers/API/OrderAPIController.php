@@ -4,9 +4,13 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Requests\API\CreateOrderAPIRequest;
 use App\Http\Requests\API\UpdateOrderAPIRequest;
+use App\Models\Bakery;
 use App\Models\Order;
 use App\Repositories\OrderRepository;
 use Carbon\Carbon;
+use DB;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\AppBaseController;
 use Response;
@@ -73,7 +77,27 @@ class OrderAPIController extends AppBaseController
 
     public function bakery_orders($bakeryId)
     {
-        $order = Order::where('bakery_id', $bakeryId)->paginate(12);
+        $order = Order::where('bakery_id', $bakeryId)->where('status', 4)->paginate(12);
+        if ($order) {
+            return $order;
+        } else {
+            return response()->json(['message' => 'no Order', 'status' => false]);
+        }
+    }
+
+    /**
+     * @param $searchText
+     * @param $bakeryId
+     * @return Builder[]|\Illuminate\Database\Eloquent\Collection
+     */
+    public function search_order($searchText, $bakeryId)
+    {
+//
+        $order = Order::where('bakery_id', $bakeryId)
+            ->orWhere('id', 'like', '%' . $searchText . '%')
+            ->orWhere('request_on', 'like', '%' . $searchText . '%')
+            ->orWhere('arrival_on', 'like', '%' . $searchText . '%')
+            ->where('bakery_id', '=', $bakeryId)->get();
         if ($order) {
             return $order;
         } else {
@@ -83,7 +107,10 @@ class OrderAPIController extends AppBaseController
 
     public function last_order($bakeryId)
     {
-        $order = Order::where('bakery_id', $bakeryId)->latest()->with(['driver', 'agent'])->first();
+//        $order = Order::where('bakery_id', $bakeryId)->latest()->with(['driver', 'agent'])->first();
+        $order = Order::where('bakery_id', $bakeryId)
+            ->where('status', 3)
+            ->with(['driver', 'agent'])->first();
         if ($order->count()) {
             return response()->json(['data' => $order, 'status' => true]);
         } else {
@@ -183,8 +210,8 @@ class OrderAPIController extends AppBaseController
     public function show($id)
     {
         /** @var Order $order */
-        $order = $this->orderRepository->find($id);
-
+//        $order = $this->orderRepository->find($id);
+        $order = Order::with(['bakery.user', 'driver'])->find($id);
         if (empty($order)) {
             return $this->sendError(
                 __('messages.not_found', ['model' => __('models/orders.singular')])
@@ -243,7 +270,7 @@ class OrderAPIController extends AppBaseController
      *      )
      * )
      */
-    public function update($id, UpdateOrderAPIRequest $request)
+    public function update($id, Request $request)
     {
         $input = $request->all();
 

@@ -11,13 +11,13 @@ class HomeAPIController extends Controller
 {
     public function home_bakery($userId)
     {
-        $bakery = Order::where('user_id', $userId)->limit(10)->get();
+        $bakery = Order::where('user_id', $userId)->where('status', 4)->limit(10)->get();
 
-        if ($bakery->count()) {
-            $bakeryInfo = Bakery::where('user_id', $userId)->first();
-            return response()->json(['data' => $bakery, 'bakeryInfo' => $bakeryInfo, 'message' => 'Successful get bakery data', 'status' => true]);
-        }
-        return response()->json(['data' => null, 'message' => 'Fail to get bakery data', 'status' => false]);
+//        if ($bakery->count()) {
+        $bakeryInfo = Bakery::where('user_id', $userId)->first();
+        return response()->json(['data' => $bakery, 'bakeryInfo' => $bakeryInfo, 'message' => 'Successful get bakery data', 'status' => true]);
+//        }
+//        return response()->json(['data' => null, 'message' => 'Fail to get bakery data', 'status' => false]);
     }
 
     public function home_agent($userId)

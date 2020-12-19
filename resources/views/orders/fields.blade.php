@@ -71,9 +71,9 @@
 <div class="form-group col-sm-6">
     {!! Form::label('driver_id', __('models/orders.fields.driver_id').':') !!}
     @if(isset($order))
-        {{ Form::select('agency_id', $drivers, $order->driver_id, ['class' => 'form-control', 'id' => 'driver_id']) }}
+        {{ Form::select('driver_id', $drivers, $order->driver_id, ['class' => 'form-control', 'id' => 'driver_id']) }}
     @else
-        {{ Form::select('agency_id', $drivers, null, ['class' => 'form-control', 'id' => 'driver_id']) }}
+        {{ Form::select('driver_id', $drivers, null, ['class' => 'form-control', 'id' => 'driver_id']) }}
     @endif
 </div>
 
