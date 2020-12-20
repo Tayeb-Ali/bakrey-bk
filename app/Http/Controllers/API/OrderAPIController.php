@@ -77,7 +77,10 @@ class OrderAPIController extends AppBaseController
 
     public function bakery_orders($bakeryId)
     {
-        $order = Order::where('bakery_id', $bakeryId)->where('status', 4)->paginate(12);
+        $order = Order::where('bakery_id', $bakeryId)
+            ->where('status', 4)
+            ->orderByDesc('id')
+            ->paginate(25);
         if ($order) {
             return $order;
         } else {
@@ -111,7 +114,7 @@ class OrderAPIController extends AppBaseController
         $order = Order::where('bakery_id', $bakeryId)
             ->where('status', 3)
             ->with(['driver', 'agent'])->first();
-        if ($order->count()) {
+        if ($order) {
             return response()->json(['data' => $order, 'status' => true]);
         } else {
             return response()->json(['message' => 'no Order', 'status' => false]);

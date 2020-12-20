@@ -11,7 +11,10 @@ class HomeAPIController extends Controller
 {
     public function home_bakery($userId)
     {
-        $bakery = Order::where('user_id', $userId)->where('status', 4)->limit(10)->get();
+        $bakery = Order::where('user_id', $userId)
+            ->where('status', 4)
+            ->orderByDesc('id')
+            ->limit(4)->get();
 
 //        if ($bakery->count()) {
         $bakeryInfo = Bakery::where('user_id', $userId)->first();

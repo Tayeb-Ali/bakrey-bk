@@ -31,7 +31,7 @@ Route::resource('bakeries', 'BakeryController');
 Route::resource('drivers', 'DriverController');
 
 Route::resource('orders', 'OrderController');
-Route::resource('users', 'UsersController');
+Route::resource('users', 'UserController');
 
 //
 //Route::get('test/{userId}', function ($userId) {
