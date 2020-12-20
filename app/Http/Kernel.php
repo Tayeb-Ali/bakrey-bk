@@ -43,7 +43,7 @@ class Kernel extends HttpKernel
         ValidatePostSize::class,
         TrimStrings::class,
         ConvertEmptyStringsToNull::class,
-        \Fruitcake\Cors\HandleCors::class,
+        HandleCors::class,
     ];
 
     /**
@@ -60,6 +60,7 @@ class Kernel extends HttpKernel
             ShareErrorsFromSession::class,
             VerifyCsrfToken::class,
             SubstituteBindings::class,
+            HandleCors::class,
         ],
 
         'api' => [
